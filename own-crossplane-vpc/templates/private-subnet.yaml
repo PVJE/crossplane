@@ -1,0 +1,23 @@
+{{- range $i, $v  := .Values.subnets.private  }}
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: {{ printf "%s-%s-%d" $.Release.Name  "private-subnet" $i }}
+  labels: 
+    {{- include "project.labels" (dict "type" (printf "%s-%d" "private-subnet" $i)) | nindent 4 }}
+spec:
+  forProvider:
+    region: {{ $.Values.region }}
+    availabilityZone: {{ .availabilityZone }}
+    cidrBlock: {{ .cidrBlock }}
+    tags:
+     {{- include "project.tags" $ | indent 4 }}
+     {{- include "nb.tags" $ | indent 4 }}
+    - key: Name
+      value: {{ .name }}
+    vpcIdRef:
+      name: {{ printf "%s-%s" $.Release.Name "vpc" }}
+    mapPublicIPOnLaunch: {{ .mapPublicIPOnlaunch }}
+  providerConfigRef:
+    name: {{ $.Values.providerConfigRef.name }}
+{{- end }}

@@ -1,0 +1,20 @@
+{{- if $.Values.natGateway.perAz }}
+{{- range $i, $v := $.Values.subnets.private }}
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Address
+metadata:
+  name: {{ printf "%s-%s-%d" "eip" $.Release.Name $i }}
+  labels: 
+    {{- include "project.labels" (dict "type" (printf "%s-%d" "eip" $i)) | nindent 4 }}
+spec:
+  forProvider:
+    region: {{ $.Values.region }}
+    domain: vpc
+    tags:
+    - key: Name
+      value: {{ printf "%s-%s-%d" "eip" $.Release.Name $i }}
+    {{- include "project.tags" $ | indent 4 }}      
+  providerConfigRef:
+    name: {{ $.Values.providerConfigRef.name }}
+{{- end }}
+{{- end }}

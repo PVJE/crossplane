@@ -1,0 +1,17 @@
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: VPC
+metadata:
+  name: {{ printf "%s-%s" $.Release.Name "vpc"}}
+spec:
+  forProvider:
+    region: {{ .Values.region }}
+    cidrBlock: {{ .Values.vpc.cidrBlock }}
+    enableDnsSupport: {{ .Values.vpc.enableDnsSupport }}
+    enableDnsHostNames: {{ .Values.vpc.enableDnsHostNames }}
+    instanceTenancy: {{ .Values.vpc.instanceTenancy }}
+    tags: 
+    {{- include "project.tags" $ | indent 4 }}
+    - key: Name
+      value: {{ .Values.vpc.name }}
+  providerConfigRef:
+    name: {{ .Values.providerConfigRef.name }}

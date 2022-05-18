@@ -1,0 +1,21 @@
+{{- if $.Values.natGateway.perAz }}
+{{- range $i, $v := $.Values.subnets.private }}
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: NATGateway
+metadata:
+  name: {{ printf "%s-%s-%d" "natgw" $.Release.Name $i }}
+spec:
+  forProvider:
+    region: {{ $.Values.region }}
+    allocationIdSelector:
+      matchLabels:
+        {{- include "project.labels" (dict "type" (printf "%s-%d" "eip" $i)) | nindent 8 }}
+    subnetIdSelector:
+      matchLabels:
+        {{- include "project.labels" (dict "type" (printf "%s-%d" "private-subnet" $i)) | nindent 8 }}      
+    tags:
+    - key: Name
+      value: {{ printf "%s-%s" "natgw" $.Release.Name }}
+    {{- include "project.tags" $ | indent 4 }}
+{{- end }}
+{{- end }}           

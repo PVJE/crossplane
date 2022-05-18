@@ -1,0 +1,17 @@
+{{- if .Values.internetGw }}
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: InternetGateway
+metadata:
+  name: {{ printf "%s-%s" "igw" $.Release.Name }}
+spec:
+  forProvider:
+    region: {{ $.Values.region }}
+    vpcIdRef:
+      name: {{ printf "%s-%s" $.Release.Name "vpc" }}
+    tags:
+    - key: Name
+      value: {{ printf "%s-%s" "igw" $.Release.Name }}
+    {{- include "project.tags" $ | indent 4 }}  
+  providerConfigRef:
+    name: {{ $.Values.providerConfigRef.name }}    
+{{- end }}

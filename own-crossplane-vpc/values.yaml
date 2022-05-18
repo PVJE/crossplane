@@ -1,0 +1,31 @@
+# Default values for own-crossplane-vpc.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+region: eu-central-1
+projectTags:
+  Project: Test
+  Project-env: Test
+providerConfigRef:
+  name: default
+vpc:
+  name: vpc-test-crossplane-chart
+  cidrBlock: 10.0.0.0/16
+  enableDnsSupport: true
+  enableDnsHostNames: true
+  instanceTenancy: default
+internetGw: true
+subnets: 
+  public:
+    - name: public-subnet
+      availabilityZone: eu-central-1a
+      cidrBlock: 10.0.1.0/24
+      mapPublicIPOnLaunch: false
+  private:
+    - name: private-subnet
+      availabilityZone: eu-central-1a
+      cidrBlock: 10.0.2.0/24
+      mapPublicIPOnLaunch: false
+natGateway:
+  perAz: true      
+      
