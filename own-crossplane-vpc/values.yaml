@@ -1,7 +1,6 @@
 # Default values for own-crossplane-vpc.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
 region: eu-central-1
 projectTags:
   Project: Test
