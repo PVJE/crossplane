@@ -16,15 +16,19 @@ vpc:
 internetGw: true
 subnets: 
   public:
-    - name: public-subnet
+    - name: public-subnet-1
       availabilityZone: eu-central-1a
       cidrBlock: 10.0.1.0/24
       mapPublicIPOnLaunch: false
   private:
-    - name: private-subnet
+    - name: private-subnet-1
       availabilityZone: eu-central-1a
       cidrBlock: 10.0.2.0/24
       mapPublicIPOnLaunch: false
+    - name: private-subnet-2
+      availabilityZone: eu-central-1b
+      cidrBlock: 10.0.3.0/24
+      mapPublicIPOnLaunch: false      
 natGateway:
   perAz: true      
       
